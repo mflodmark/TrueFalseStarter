@@ -12,13 +12,14 @@ import AudioToolbox
 
 class ViewController: UIViewController {
     
+    // Declarations
     let questionsPerRound = 4
     var questionsAsked = 0
     var correctQuestions = 0
-    //var gameSound: SystemSoundID = 0
     var indexOfSelectedQuestion: Int = 0
     var timeRemaining: Int = 15
-    
+    var timer = Timer()
+
     // Arrays
     var buttonsArray: [UIButton] = [UIButton]()
     var questionsAlreadyAsked: [String] = [String]()
@@ -98,12 +99,12 @@ class ViewController: UIViewController {
         }
     }
     
-    //var timer: Timer
-    //var timer: Timer = Timer.init(timeInterval: 1, target: self, selector: #selector(), userInfo: nil, repeats: true)
 
     func timerStart() {
-        let timer: Timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(timerCountdown), userInfo: nil, repeats: true)
-        timer.fire()
+        timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(timerCountdown), userInfo: nil, repeats: true)
+        
+        // Starting time
+        timeRemaining = 15
     }
     
     func timerCountdown() {
@@ -113,8 +114,9 @@ class ViewController: UIViewController {
         
         // Stop timer & go to next question if 0
         if timeRemaining == 0 {
+            // Must invalidate timer before starting a new round, otherwise it becomes a new timer all the time
+            timer.invalidate()
             nextRound()
-            //timer.invalidate()
         }
         
     }
@@ -216,7 +218,7 @@ class ViewController: UIViewController {
         playAgainButton.isHidden = false
         
         // Stop timer
-        //timer.invalidate()
+        timer.invalidate()
         
         if (sender.currentTitle == correctAnswer) {
             correctAnswered()
@@ -229,7 +231,7 @@ class ViewController: UIViewController {
     @IBAction func nextQuestion(_ sender: UIButton) {
         if (sender.currentTitle == "Next Question")
         {
-            loadNextRoundWithDelay(seconds: 2)
+            loadNextRoundWithDelay(seconds: 1)
         } else {
             // Show the answer buttons
             showAnswerButtons()
@@ -255,17 +257,5 @@ class ViewController: UIViewController {
             self.nextRound()
         }
     }
-    
-    /*
-    func loadGameStartSound() {
-        let pathToSoundFile = Bundle.main.path(forResource: "GameSound", ofType: "wav")
-        let soundURL = URL(fileURLWithPath: pathToSoundFile!)
-        AudioServicesCreateSystemSoundID(soundURL as CFURL, &gameSound)
-    }
-    
-    func playGameStartSound() {
-        AudioServicesPlaySystemSound(gameSound)
-    }
- */
 }
 
