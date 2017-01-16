@@ -221,9 +221,19 @@ class ViewController: UIViewController {
         timer.invalidate()
         
         if (sender.currentTitle == correctAnswer) {
+            
+            // Set-up after correct answer
             correctAnswered()
+            
+            // Sound
+            correctAnswerSound()
+            
          } else {
+            // Set-up after correct answer
             incorrectAnswered()
+            
+            // Sound
+            incorrectAnswerSound()
          }
     }
     
