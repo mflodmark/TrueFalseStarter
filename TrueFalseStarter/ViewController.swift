@@ -59,10 +59,11 @@ class ViewController: UIViewController {
     // MARK: Functions
     
     func displayQuestion(buttonTitle: String) {
-        showAnswerButtons()
-        
         // Random question
         randomQuestion()
+        
+        // Set-up for buttons
+        showAnswerButtons()
         
         //Timer
         timerStart()
@@ -83,11 +84,15 @@ class ViewController: UIViewController {
         indexOfSelectedQuestion = GKRandomSource.sharedRandom().nextInt(upperBound: questions.questionsAndAnswers.count)
         let questionDictionary = questions.questionsAndAnswers[indexOfSelectedQuestion]
         questionField.text = questionDictionary["Question"]
+        
+        
+        // Loop for checking how many answers the question have
         answer1.setTitle(questionDictionary["Answer1"], for: UIControlState.normal)
         answer2.setTitle(questionDictionary["Answer2"], for: UIControlState.normal)
         answer3.setTitle(questionDictionary["Answer3"], for: UIControlState.normal)
         answer4.setTitle(questionDictionary["Answer4"], for: UIControlState.normal)
         
+        // Loop for checking already asked questions
         var counter: Int = 0
         for _ in questionsAlreadyAsked {
             if (questionField.text == questionsAlreadyAsked[counter]) {
@@ -139,14 +144,15 @@ class ViewController: UIViewController {
     }
     
     func showAnswerButtons() {
-        answer1.isHidden = false
-        answer2.isHidden = false
-        answer3.isHidden = false
-        answer4.isHidden = false
-        answer1.alpha = 1
-        answer2.alpha = 1
-        answer3.alpha = 1
-        answer4.alpha = 1
+        for button in buttonsArray {
+            if button.description == "" {
+                button.isHidden = true
+            } else {
+                button.isHidden = false
+                // Opacity for button
+                button.alpha = 1
+            }
+        }
         label.text = ""
     }
  

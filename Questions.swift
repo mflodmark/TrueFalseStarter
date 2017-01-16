@@ -11,7 +11,7 @@ import GameKit
 
 class Questions {
     
-    let answerCount: Int = 0
+    let answerCount: Int = 0 // used?
     
     let questionsAndAnswers: [[String : String]] = [
         
@@ -54,7 +54,7 @@ class Questions {
          "Answer1": "1999",
          "Answer2": "2001",
          "Answer3": "2002",
-         "Answer4": "2004",
+         "Answer4": "",
          "CorrectAnswer": "2001"],
         
         ["Question": "How many children does Zlatan have?",
@@ -64,16 +64,13 @@ class Questions {
          "Answer4": "3",
          "CorrectAnswer": "2"],
         
-        /* 
-         For new questions:
-         
-        ["Question": "",
-         "Answer1": "",
-         "Answer2": "",
-         "Answer3": "",
-         "Answer4": "",
-         "CorrectAnswer": ""],
-         */
+        ["Question": "Who is the best player?",
+         "Answer1": "Zlatan",
+         "Answer2": "Ronaldo",
+         "Answer3": "Messi",
+         "Answer4": "Markus",
+         "CorrectAnswer": "Markus"]
+        
  
         ]
 
