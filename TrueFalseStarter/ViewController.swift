@@ -83,14 +83,22 @@ class ViewController: UIViewController {
     func randomQuestion() {
         indexOfSelectedQuestion = GKRandomSource.sharedRandom().nextInt(upperBound: questions.questionsAndAnswers.count)
         let questionDictionary = questions.questionsAndAnswers[indexOfSelectedQuestion]
+        
+        
+        // Set text related to buttons
+        questionField.text = questionDictionary.question
+        answer1.setTitle(questionDictionary.answer1, for: UIControlState.normal)
+        answer2.setTitle(questionDictionary.answer2, for: UIControlState.normal)
+        answer3.setTitle(questionDictionary.answer3, for: UIControlState.normal)
+        answer4.setTitle(questionDictionary.answer4, for: UIControlState.normal)
+        
+        /*
         questionField.text = questionDictionary["Question"]
-        
-        
-        // Loop for checking how many answers the question have
         answer1.setTitle(questionDictionary["Answer1"], for: UIControlState.normal)
         answer2.setTitle(questionDictionary["Answer2"], for: UIControlState.normal)
         answer3.setTitle(questionDictionary["Answer3"], for: UIControlState.normal)
         answer4.setTitle(questionDictionary["Answer4"], for: UIControlState.normal)
+        */
         
         // Loop for checking already asked questions
         var counter: Int = 0
@@ -145,7 +153,7 @@ class ViewController: UIViewController {
     
     func showAnswerButtons() {
         for button in buttonsArray {
-            if button.description == "" {
+            if button.title(for: UIControlState.normal) == "" {
                 button.isHidden = true
             } else {
                 button.isHidden = false
@@ -202,7 +210,7 @@ class ViewController: UIViewController {
             if button == buttonsArray[counter].title(for: UIControlState.normal) {
                 // don't do anything
             } else {
-                // change alpha of other buttons
+                // change opacity of other buttons
                 buttonsArray[counter].alpha = 0.2
             }
             counter += 1
@@ -217,8 +225,8 @@ class ViewController: UIViewController {
         
         // Correct answer
         let selectedQuestionDict = questions.questionsAndAnswers[indexOfSelectedQuestion]
-        let correctAnswer = selectedQuestionDict["CorrectAnswer"]
-        questionButton(button: correctAnswer!)
+        let correctAnswer = selectedQuestionDict.correctAnswer
+        questionButton(button: correctAnswer)
         
         // Show next question button
         playAgainButton.isHidden = false
