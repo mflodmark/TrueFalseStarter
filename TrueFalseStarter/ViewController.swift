@@ -123,13 +123,14 @@ class ViewController: UIViewController {
     func timerCountdown() {
         // Updating label text with timer countdown
         label.text = (timeRemaining).description
-        timeRemaining -= 1
         
         // Stop timer & go to next question if 0
-        if timeRemaining == 0 {
+        if timeRemaining == -1 {
             // Must invalidate timer before starting a new round, otherwise it becomes a new timer all the time
             timer.invalidate()
             nextRound()
+        } else {
+            timeRemaining -= 1
         }
         
     }
