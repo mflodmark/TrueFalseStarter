@@ -12,6 +12,9 @@ import AudioToolbox
 
 class ViewController: UIViewController {
     
+    // Instance of swift files
+    let questions = Questions()
+    
     // Declarations
     let questionsPerRound = 4
     var questionsAsked = 0
@@ -22,10 +25,6 @@ class ViewController: UIViewController {
 
     // Arrays
     var buttonsArray: [UIButton] = [UIButton]()
-    var questionsAlreadyAsked: [String] = [String]()
-    
-    // Instance of swift files
-    let questions = Questions()
 
     // Outlets
     @IBOutlet weak var questionField: UILabel!
@@ -45,6 +44,7 @@ class ViewController: UIViewController {
         // Start game
         playGameStartSound()
         displayQuestion(buttonTitle: "Next Question")
+        
         
         // Creating array of buttons
         self.buttonsArray = [self.answer1, self.answer2, self.answer3, self.answer4]
@@ -79,39 +79,19 @@ class ViewController: UIViewController {
 
     }
     
-    
     func randomQuestion() {
+        
         indexOfSelectedQuestion = GKRandomSource.sharedRandom().nextInt(upperBound: questions.questionsAndAnswers.count)
-        let questionDictionary = questions.questionsAndAnswers[indexOfSelectedQuestion]
+                let questionDictionary = questions.questionsAndAnswers[indexOfSelectedQuestion]
+                
+                // Set text related to buttons
+                questionField.text = questionDictionary.question
+                answer1.setTitle(questionDictionary.answer1, for: UIControlState.normal)
+                answer2.setTitle(questionDictionary.answer2, for: UIControlState.normal)
+                answer3.setTitle(questionDictionary.answer3, for: UIControlState.normal)
+                answer4.setTitle(questionDictionary.answer4, for: UIControlState.normal)
         
-        
-        // Set text related to buttons
-        questionField.text = questionDictionary.question
-        answer1.setTitle(questionDictionary.answer1, for: UIControlState.normal)
-        answer2.setTitle(questionDictionary.answer2, for: UIControlState.normal)
-        answer3.setTitle(questionDictionary.answer3, for: UIControlState.normal)
-        answer4.setTitle(questionDictionary.answer4, for: UIControlState.normal)
-        
-        /*
-        questionField.text = questionDictionary["Question"]
-        answer1.setTitle(questionDictionary["Answer1"], for: UIControlState.normal)
-        answer2.setTitle(questionDictionary["Answer2"], for: UIControlState.normal)
-        answer3.setTitle(questionDictionary["Answer3"], for: UIControlState.normal)
-        answer4.setTitle(questionDictionary["Answer4"], for: UIControlState.normal)
-        */
-        
-        // Loop for checking already asked questions
-        var counter: Int = 0
-        for _ in questionsAlreadyAsked {
-            if (questionField.text == questionsAlreadyAsked[counter]) {
-                randomQuestion()
-            } else {
-                questionsAlreadyAsked.append(questionField.text!)
-            }
-            counter += 1
         }
-    }
-    
 
     func timerStart() {
         timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(timerCountdown), userInfo: nil, repeats: true)
@@ -125,7 +105,7 @@ class ViewController: UIViewController {
         label.text = (timeRemaining).description
         
         // Stop timer & go to next question if 0
-        if timeRemaining == -1 {
+        if timeRemaining == 0 {
             // Must invalidate timer before starting a new round, otherwise it becomes a new timer all the time
             timer.invalidate()
             nextRound()
@@ -187,6 +167,7 @@ class ViewController: UIViewController {
             displayScore()
         } else {
             // Continue game
+            questions.questionsAndAnswers.remove(at: indexOfSelectedQuestion)
             displayQuestion(buttonTitle: "Next Question")
         }
     }
