@@ -35,7 +35,8 @@ class ViewController: UIViewController {
     @IBOutlet weak var answer4: UIButton!
     @IBOutlet weak var playAgainButton: UIButton!
     @IBOutlet weak var stackView: UIStackView!
-   
+    @IBOutlet weak var constraintAnswer4: NSLayoutConstraint!
+    @IBOutlet weak var heightAnswer4: NSLayoutConstraint!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -135,32 +136,19 @@ class ViewController: UIViewController {
         label.text = ""
     }
     
-    func setUpConstraints(constant: Int) {
-        /*
-         A constraint cannot be made between a leading/trailing attribute and a right/left attribute. Use leading/trailing for both or neither.'
-         *** First throw call stack:
-         (
- */
-        // declaration for constraints for play button
-        //let leftPlayButtonConstraint = NSLayoutConstraint(item: playAgainButton, attribute: NSLayoutAttribute.left, relatedBy: NSLayoutRelation.equal, toItem: view, attribute: NSLayoutAttribute.leadingMargin, multiplier: 1.0, constant: 0)
-        
-        //let rightPlayButtonConstraint = NSLayoutConstraint(item: playAgainButton, attribute: NSLayoutAttribute.right, relatedBy: NSLayoutRelation.equal, toItem: view, attribute: NSLayoutAttribute.trailingMargin, multiplier: 1.0, constant: 0)
-        //playAgainButton.layouta
-//        let bottomPlayButtonConstraint = NSLayoutConstraint(item: playAgainButton, attribute: NSLayoutAttribute.bottomMargin, relatedBy: NSLayoutRelation.equal, toItem: view, attribute: NSLayoutAttribute.bottomMargin, multiplier: 1.0, constant: CGFloat(constant))
-//        
-//        // Add constraints to the view for play button
-//        view.addConstraints([bottomPlayButtonConstraint])
-    }
     
     func showAnswerButtons() {
         for button in buttonsArray {
             if button.title(for: UIControlState.normal) == "" {
                 button.isHidden = true
-                //setUpConstraints(constant: 250)
+                heightAnswer4.constant = 0
+                constraintAnswer4.constant = 0
             } else {
                 button.isHidden = false
                 // Opacity for button
                 button.alpha = 1
+                heightAnswer4.constant = 50
+                constraintAnswer4.constant = 20
             }
         }
         label.text = ""
@@ -256,9 +244,10 @@ class ViewController: UIViewController {
     
 
     @IBAction func nextQuestion(_ sender: UIButton) {
-        if (sender.currentTitle == "Next Question")
-        {
+        if (sender.currentTitle == "Next Question") {
             loadNextRoundWithDelay(seconds: 1)
+        } else if (sender.currentTitle == "Out of questions...") {
+            // do nothing
         } else {
             // Show the answer buttons
             showAnswerButtons()
@@ -266,13 +255,12 @@ class ViewController: UIViewController {
             questionsAsked = 0
             correctQuestions = 0
             nextRound()
+            }
         }
-    }
+    
 
     
-    
     // MARK: Helper Methods
-    
     func loadNextRoundWithDelay(seconds: Int) {
         // Converts a delay in seconds to nanoseconds as signed 64 bit integer
         let delay = Int64(NSEC_PER_SEC * UInt64(seconds))
@@ -284,7 +272,7 @@ class ViewController: UIViewController {
             self.nextRound()
         }
     }
-    
-    
 }
+
+
 

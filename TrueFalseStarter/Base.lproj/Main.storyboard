@@ -138,6 +138,8 @@
                         <outlet property="answer2" destination="AS4-HX-g9f" id="0h3-41-S2y"/>
                         <outlet property="answer3" destination="xct-1h-jqD" id="lep-CY-SM2"/>
                         <outlet property="answer4" destination="eUH-Uq-Mgo" id="Mro-Wc-BfF"/>
+                        <outlet property="constraintAnswer4" destination="FA1-Fo-Ijk" id="8Am-bC-bON"/>
+                        <outlet property="heightAnswer4" destination="D4L-ZE-4xe" id="ZcN-OX-L9A"/>
                         <outlet property="label" destination="IHl-5B-88u" id="RCz-r1-RGE"/>
                         <outlet property="playAgainButton" destination="K17-uy-MvB" id="0Bx-Cm-ye0"/>
                         <outlet property="questionField" destination="I3V-ih-1Ky" id="7UI-o2-ATi"/>
