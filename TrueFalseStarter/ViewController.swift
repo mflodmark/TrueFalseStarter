@@ -34,7 +34,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var answer3: UIButton!
     @IBOutlet weak var answer4: UIButton!
     @IBOutlet weak var playAgainButton: UIButton!
-    
+    @IBOutlet weak var stackView: UIStackView!
    
     
     override func viewDidLoad() {
@@ -59,39 +59,42 @@ class ViewController: UIViewController {
     // MARK: Functions
     
     func displayQuestion(buttonTitle: String) {
-        // Random question
-        randomQuestion()
-        
-        // Set-up for buttons
-        showAnswerButtons()
-        
-        //Timer
-        timerStart()
-        
-        // Show play button
-        playAgainButton.isHidden = true
-        
-        // Title for play again or next question button
-        playAgainButton.setTitle(buttonTitle, for: UIControlState.normal)
-        
-        // Button set-up
-        buttonSetUp()
-
+        if questions.questionsAndAnswers.count == 0 {
+            // Title
+            playAgainButton.setTitle("Out of questions...", for: UIControlState.normal)
+            hideAnswerButtons()
+        } else {
+            // Random question
+            randomQuestion()
+            
+            // Set-up for buttons
+            showAnswerButtons()
+            
+            //Timer
+            timerStart()
+            
+            // Show play button
+            playAgainButton.isHidden = true
+            
+            // Title for play again or next question button
+            playAgainButton.setTitle(buttonTitle, for: UIControlState.normal)
+            
+            // Button set-up
+            buttonSetUp()
+            }
     }
     
     func randomQuestion() {
-        
         indexOfSelectedQuestion = GKRandomSource.sharedRandom().nextInt(upperBound: questions.questionsAndAnswers.count)
-                let questionDictionary = questions.questionsAndAnswers[indexOfSelectedQuestion]
-                
-                // Set text related to buttons
-                questionField.text = questionDictionary.question
-                answer1.setTitle(questionDictionary.answer1, for: UIControlState.normal)
-                answer2.setTitle(questionDictionary.answer2, for: UIControlState.normal)
-                answer3.setTitle(questionDictionary.answer3, for: UIControlState.normal)
-                answer4.setTitle(questionDictionary.answer4, for: UIControlState.normal)
+        let questionDictionary = questions.questionsAndAnswers[indexOfSelectedQuestion]
         
-        }
+        // Set text related to buttons
+        questionField.text = questionDictionary.question
+        answer1.setTitle(questionDictionary.answer1, for: UIControlState.normal)
+        answer2.setTitle(questionDictionary.answer2, for: UIControlState.normal)
+        answer3.setTitle(questionDictionary.answer3, for: UIControlState.normal)
+        answer4.setTitle(questionDictionary.answer4, for: UIControlState.normal)
+    }
 
     func timerStart() {
         timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(timerCountdown), userInfo: nil, repeats: true)
@@ -132,10 +135,28 @@ class ViewController: UIViewController {
         label.text = ""
     }
     
+    func setUpConstraints(constant: Int) {
+        /*
+         A constraint cannot be made between a leading/trailing attribute and a right/left attribute. Use leading/trailing for both or neither.'
+         *** First throw call stack:
+         (
+ */
+        // declaration for constraints for play button
+        //let leftPlayButtonConstraint = NSLayoutConstraint(item: playAgainButton, attribute: NSLayoutAttribute.left, relatedBy: NSLayoutRelation.equal, toItem: view, attribute: NSLayoutAttribute.leadingMargin, multiplier: 1.0, constant: 0)
+        
+        //let rightPlayButtonConstraint = NSLayoutConstraint(item: playAgainButton, attribute: NSLayoutAttribute.right, relatedBy: NSLayoutRelation.equal, toItem: view, attribute: NSLayoutAttribute.trailingMargin, multiplier: 1.0, constant: 0)
+        //playAgainButton.layouta
+//        let bottomPlayButtonConstraint = NSLayoutConstraint(item: playAgainButton, attribute: NSLayoutAttribute.bottomMargin, relatedBy: NSLayoutRelation.equal, toItem: view, attribute: NSLayoutAttribute.bottomMargin, multiplier: 1.0, constant: CGFloat(constant))
+//        
+//        // Add constraints to the view for play button
+//        view.addConstraints([bottomPlayButtonConstraint])
+    }
+    
     func showAnswerButtons() {
         for button in buttonsArray {
             if button.title(for: UIControlState.normal) == "" {
                 button.isHidden = true
+                //setUpConstraints(constant: 250)
             } else {
                 button.isHidden = false
                 // Opacity for button
@@ -263,5 +284,7 @@ class ViewController: UIViewController {
             self.nextRound()
         }
     }
+    
+    
 }
 
